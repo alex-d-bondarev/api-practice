@@ -1,5 +1,8 @@
 package org.practice.rest;
 
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -48,5 +51,20 @@ public class Task10Test extends BaseTest {
                     .then().statusCode(expectedStatus));
             assertBodyNotEmpty(eachCustomerService);
         }
+    }
+
+    @Test(description = "Register new server for existing customer service instance")
+    public void registerNewServer(){
+        String newServerIP = "1.2.3.4";
+        String call = ROOT_URL + PORT + CUSTOMERS_RES + CUSTOMER
+                + SERVICE_RES + SERVICE + "deployments/" + newServerIP;
+        String body = "instanceId=apiTest";
+        int expectedStatus = 201;
+
+        given().contentType(ContentType.TEXT)
+                .body(body)
+                .filters(new ResponseLoggingFilter(), new RequestLoggingFilter())
+            .when().put(call)
+            .then().statusCode(expectedStatus);
     }
 }
