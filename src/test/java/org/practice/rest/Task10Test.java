@@ -34,6 +34,7 @@ public class Task10Test extends BaseTest {
         assertBodyNotEmpty(response);
     }
 
+
     @Test(description = "Verify that there is existing customer and service instance available")
     public void verifyExistingServices(){
         List<String> allCustomers = null;
@@ -58,9 +59,10 @@ public class Task10Test extends BaseTest {
         }
     }
 
+
     @Test(description = "Register new server for existing customer service instance")
     public void registerNewServer(){
-        String call = ROOT_URL + PORT + CUSTOMERS_RES + CUSTOMER
+        String call = endpoint + CUSTOMER
                 + SERVICE_RES + SERVICE + "deployments/" + newServerIP;
         String body = "instanceId=apiTest";
         int expectedStatus = 201;
@@ -73,12 +75,12 @@ public class Task10Test extends BaseTest {
 
     }
 
+
     @Test(description = "Verify that the server is registered in the controller for the specific customer and\n" +
             "service instance", dependsOnMethods = "registerNewServer")
     public void checkNewServer(){
         int expectedStatus = 200;
-        String call = ROOT_URL + PORT + CUSTOMERS_RES + CUSTOMER
-                + SERVICE_RES + SERVICE + "deployments/";
+        String call = endpoint + CUSTOMER + SERVICE_RES + SERVICE + "deployments/";
 
         String allServers = getBodyAsString(
                 given().filters(new ResponseLoggingFilter(), new RequestLoggingFilter())
@@ -88,6 +90,7 @@ public class Task10Test extends BaseTest {
         Assert.assertTrue(allServers.contains(newServerIP),
                 newServerIP + " should be shown in " + allServers);
     }
+
 
     @Test(description = "Wait for 5 minutes", dependsOnMethods = "checkNewServer", enabled = false)
     public void wait5Minutes(){
@@ -100,14 +103,21 @@ public class Task10Test extends BaseTest {
         System.out.println("Waited for 5 minutes");
     }
 
+
     @Test(description = "Verify that application on the newly registered server is accessible"
     , dependsOnMethods = "checkNewServer", alwaysRun = true)
     public void verifyApplication(){
         Assert.assertTrue(true, "Need to clarify");
     }
 
+
     @Test(description = "Clean up (remove the server from the Controller)", dependsOnMethods = "verifyApplication")
     public void cleanUpNewServer(){
-        Assert.assertTrue(true, "Need to clarify");
+        int expectedStatus = 204;
+        String call = endpoint + CUSTOMER + SERVICE_RES + SERVICE + "deployments/" + newServerIP;
+
+        given().filters(new ResponseLoggingFilter(), new RequestLoggingFilter())
+                .when().delete(call)
+                .then().statusCode(expectedStatus);
     }
 }
