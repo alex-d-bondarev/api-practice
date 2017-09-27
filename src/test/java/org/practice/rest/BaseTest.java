@@ -6,6 +6,7 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 
 public abstract class BaseTest {
@@ -39,5 +40,10 @@ public abstract class BaseTest {
 
     protected String getBodyAsString(ValidatableResponse response){
         return response.contentType(ContentType.TEXT).extract().response().asString();
+    }
+
+    protected void assertBodyNotEmpty(String body){
+        String emptyResult = "";
+        Assert.assertNotEquals(body, emptyResult, "Response should not be empty");
     }
 }
