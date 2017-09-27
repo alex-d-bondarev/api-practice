@@ -1,7 +1,5 @@
 package org.practice.rest;
 
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -21,12 +19,12 @@ public class Task11Test extends BaseTest{
     public void resourceOK(){
         int expectedStatus = 200;
 
-        Response response = given().spec(spec)
+        String response = getBodyAsString(
+                given().spec(spec)
                 .when().get()
-                .then().statusCode(expectedStatus)
-                .contentType(ContentType.TEXT).extract().response();
+                .then().statusCode(expectedStatus));
 
-        reindexBatchSizeValue = Integer.parseInt(response.asString());
+        reindexBatchSizeValue = Integer.parseInt(response);
     }
 
 
@@ -40,11 +38,12 @@ public class Task11Test extends BaseTest{
                 .when().post()
                 .then().statusCode(expectedStatus);
 
-        Response response  = given().spec(spec)
+        String response = getBodyAsString(
+                given().spec(spec)
                 .when().get()
-                .then().contentType(ContentType.TEXT).extract().response();
+                .then());
 
-        newSize = Integer.parseInt(response.asString());
+        newSize = Integer.parseInt(response);
 
         Assert.assertEquals(expectedSize, newSize, "ms.reindexBatchSize should be updated after POST");
 
