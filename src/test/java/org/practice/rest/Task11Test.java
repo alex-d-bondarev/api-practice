@@ -1,44 +1,19 @@
 package org.practice.rest;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
 
-public class Task11Test{
-
-    private static final String ROOT_URL = "http://34.251.228.27";
-    private static final String PORT = ":8081/";
-    private static final String CUSTOMERS_RES = "control/customers/";
-    private static final String CUSTOMER = "testgrid-QA-Assignment-Alexander-Bondarev-620f3c5e-3df7-4445-9f97-8f44a6bca12c/";
-    private static final String SERVICE_RES = "services/";
-    private static final String SERVICE = "fas:Fas_it69_QA_assignment_task1_and_2-20170927101840/";
-    private static final String PROPERTIES_RES = "properties/";
-    private static final String PROPERTY = "ms.reindexBatchSize";
+public class Task11Test extends BaseTest{
 
     private int reindexBatchSizeValue = 0;
 
-    private static RequestSpecification spec;
-
-
-    @BeforeClass
-    public void setUpSpec(){
-        String endpoint = ROOT_URL + PORT + CUSTOMERS_RES + CUSTOMER
+    protected void setUpEndPoint() {
+        endpoint = ROOT_URL + PORT + CUSTOMERS_RES + CUSTOMER
                 + SERVICE_RES + SERVICE + PROPERTIES_RES + PROPERTY;
-
-        spec = new RequestSpecBuilder()
-                .setContentType(ContentType.JSON)
-                .setBaseUri(endpoint)
-                .addFilter(new ResponseLoggingFilter())
-                .addFilter(new RequestLoggingFilter())
-                .build();
     }
 
 
@@ -58,7 +33,7 @@ public class Task11Test{
     @Test(description = "Test #11.2 POST with new value.", dependsOnMethods = "resourceOK")
     public void updateResource(){
         int expectedStatus = 202;
-        int expectedSize = reindexBatchSizeValue++;
+        int expectedSize = reindexBatchSizeValue+1;
         int newSize;
 
         given().spec(spec).body(expectedSize)
