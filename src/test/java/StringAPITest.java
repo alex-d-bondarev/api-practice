@@ -1,5 +1,3 @@
-package org.practice.rest;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -7,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class StringAPITest extends StringRequester{
+public class StringAPITest extends StringRequester {
     private static final String CUSTOMER = "testgrid-QA-Assignment-Alexander-Bondarev-620f3c5e-3df7-4445-9f97-8f44a6bca12c/";
     private static final String SERVICE_RES = "services/";
     private static final String SERVICE = "fas:Fas_it69_QA_assignment_task1_and_2-20170927101840/";

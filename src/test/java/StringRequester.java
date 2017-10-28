@@ -1,5 +1,3 @@
-package org.practice.rest;
-
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -12,7 +10,7 @@ import static io.restassured.RestAssured.given;
 
 public abstract class StringRequester {
 
-    private static final String BASE_URI = "http://34.251.228.27:8081/control/customers/";
+    private String BASE_URI = ConfigProperties.getProperty("string.base_uri");
     private RequestSpecification spec;
 
 
