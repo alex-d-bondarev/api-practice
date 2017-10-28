@@ -3,8 +3,7 @@
 <suite name="Practice suite" verbose="1" >
     <test name="Practice test">
         <classes>
-            <class name="org.practice.rest.Task11Test"/>
-            <class name="org.practice.rest.Task10Test"/>
+            <class name="org.practice.rest.StringAPITest"/>
         </classes>
     </test>
 </suite>
