@@ -15,7 +15,6 @@ public class ConfigProperties {
         prop = new Properties();
 
         try {
-
             if (input != null) {
                 prop.load(input);
             } else {
@@ -29,9 +28,8 @@ public class ConfigProperties {
         }
     }
 
-    public static ConfigProperties getInstance(){
+    private static void getInstance(){
         if(instance == null) instance = new ConfigProperties();
-        return instance;
     }
 
     public static String getProperty(String key){
