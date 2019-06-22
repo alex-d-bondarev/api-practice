@@ -3,7 +3,7 @@
 <suite name="Practice suite" verbose="1" >
     <test name="Practice test">
         <classes>
-            <class name="StringAPITest"/>
+            <class name="JsonAPITest"/>
         </classes>
     </test>
 </suite>

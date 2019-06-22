@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  mock-server:
+    image: jamesdbloom/mockserver:mockserver-5.6.0
+    ports:
+      - 1080:1080

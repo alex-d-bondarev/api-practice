@@ -8,7 +8,7 @@ public class JsonAPITest extends JsonRequester {
     @DataProvider(name = "demo")
     public Object[][] demoProvider(){
         PostsPojo requestBody = new PostsPojo();
-        requestBody.setId(1);
+        requestBody.setId(101);
         requestBody.setUserId(2);
         requestBody.setTitle("test title");
         requestBody.setBody("test body");
