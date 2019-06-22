@@ -1,11 +1,10 @@
-import org.mockserver.client.MockServerClient;
+import mocks.MockParameters;
+import mocks.MockServerUtils;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.is;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
 
 public class GenericMockServerExample {
     private String url = "http://%s:%d%s";
@@ -17,6 +16,23 @@ public class GenericMockServerExample {
 
     private int expectedStatusCode = 200;
     private int port = 1080;
+
+    private MockParameters parameters;
+
+    @BeforeClass
+    public void setup(){
+        parameters = MockParameters.MockParametersBuilder.aMockParameters().
+                withHost(host).
+                withPort(port).
+                withMethod(getMethod).
+                withPath(path).
+                withStatusCode(expectedStatusCode).
+                withBody(body).
+                build();
+
+        MockServerUtils.resetAll(parameters);
+    }
+
 
     @Test
     public void createExampleMock() {
@@ -33,10 +49,11 @@ public class GenericMockServerExample {
         createMockWithBody(body);
         assertMockHasBody(body);
 
-        resetAllMocks();
+        MockServerUtils.resetAll(parameters);
         createMockWithBody(newBody);
         assertMockHasBody(newBody);
     }
+
 
     private void assertMockHasBody(String body){
         when().get(String.format(url, host, port, path)).
@@ -44,20 +61,15 @@ public class GenericMockServerExample {
     }
 
     private void createMockWithBody(String body){
-        new MockServerClient(host, port)
-                .when(
-                        request()
-                                .withMethod(getMethod)
-                                .withPath(path)
-                )
-                .respond(
-                        response()
-                                .withStatusCode(expectedStatusCode)
-                                .withBody(body)
-                );
-    }
+        MockParameters parameters = MockParameters.MockParametersBuilder.aMockParameters().
+                withHost(host).
+                withPort(port).
+                withMethod(getMethod).
+                withPath(path).
+                withStatusCode(expectedStatusCode).
+                withBody(body).
+                build();
 
-    private void resetAllMocks(){
-        new MockServerClient(host, port).reset();
+        MockServerUtils.createMockWithParameters(parameters);
     }
 }
