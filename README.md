@@ -12,4 +12,4 @@ Run generic tests with mocks
 1. `docker-compose up -d`
 1. Open [GenericMockServerExample](src/test/java/GenericMockServerExample.java)
 1. Trigger tests from IDE
-1. `docker-compose dowsn -v`
+1. `docker-compose down -v`
