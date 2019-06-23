@@ -7,7 +7,7 @@ import static org.mockserver.model.HttpResponse.response;
 
 public class MockServerUtils {
 
-    public static void createMockWithParameters(MockParameters parameters){
+    public static void createMockWith(MockParameters parameters){
         new MockServerClient(parameters.getHost(), parameters.getPort())
                 .when(
                         request()

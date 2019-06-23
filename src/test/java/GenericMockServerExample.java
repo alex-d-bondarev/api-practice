@@ -1,6 +1,6 @@
 import mocks.MockParameters;
 import mocks.MockServerUtils;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.when;
@@ -14,39 +14,35 @@ public class GenericMockServerExample {
     private String getMethod = "GET";
     private String path = "/status";
 
-    private int expectedStatusCode = 200;
+    private int okStatusCode = 200;
     private int port = 1080;
 
     private MockParameters parameters;
 
-    @BeforeClass
-    public void setup(){
-        parameters = MockParameters.MockParametersBuilder.aMockParameters().
-                withHost(host).
-                withPort(port).
-                withMethod(getMethod).
-                withPath(path).
-                withStatusCode(expectedStatusCode).
-                withBody(body).
-                build();
-
+    @BeforeMethod
+    public void setup() {
+        parameters = createParametersWithBody(body);
         MockServerUtils.resetAll(parameters);
-    }
-
-
-    @Test
-    public void createExampleMock() {
         createMockWithBody(body);
+    }
 
+
+    @Test
+    public void mockedRequestHasStatusOK() {
         when().get(String.format(url, host, port, path)).
-                then().statusCode(expectedStatusCode).body(is(body));
+                then().statusCode(okStatusCode);
+    }
+
+
+    @Test
+    public void mockedRequestHasBodyAlive() {
+        assertMockHasBody(body);
     }
 
     @Test
-    public void mockIsOverriden(){
+    public void mockIsOverridden() {
         String newBody = "It's Alive!";
 
-        createMockWithBody(body);
         assertMockHasBody(body);
 
         MockServerUtils.resetAll(parameters);
@@ -55,21 +51,24 @@ public class GenericMockServerExample {
     }
 
 
-    private void assertMockHasBody(String body){
+    private void assertMockHasBody(String body) {
         when().get(String.format(url, host, port, path)).
                 then().body(is(body));
     }
 
-    private void createMockWithBody(String body){
-        MockParameters parameters = MockParameters.MockParametersBuilder.aMockParameters().
+    private void createMockWithBody(String body) {
+        MockParameters parameters = createParametersWithBody(body);
+        MockServerUtils.createMockWith(parameters);
+    }
+
+    private MockParameters createParametersWithBody(String body) {
+        return MockParameters.MockParametersBuilder.aMockParameters().
                 withHost(host).
                 withPort(port).
                 withMethod(getMethod).
                 withPath(path).
-                withStatusCode(expectedStatusCode).
+                withStatusCode(okStatusCode).
                 withBody(body).
                 build();
-
-        MockServerUtils.createMockWithParameters(parameters);
     }
 }
