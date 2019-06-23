@@ -1,15 +1,19 @@
 Practice API testing
 ====================
 
-Run generic testNG tests
-------------------------
 
-`mvn clean test`
-
-Run generic tests with mocks
-----------------------------
+Run tests
+---------
 
 1. `docker-compose up -d`
-1. Open [GenericMockServerExample](src/test/java/GenericMockServerExample.java)
-1. Trigger tests from IDE
+1. `mvn clean test`
+1. `docker-compose down -v`
+
+
+Debug tests
+-----------
+
+1. `docker-compose up -d`
+1. Open any test in your favorite IDE
+1. Trigger or debug opened test
 1. `docker-compose down -v`

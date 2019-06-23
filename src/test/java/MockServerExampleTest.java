@@ -6,12 +6,11 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.is;
 
-public class GenericMockServerExample {
-    private String url = "http://%s:%d%s";
+public class MockServerExampleTest {
+    private String BASE_URI = ConfigProperties.getProperty("api.base_uri");
 
     private String body = "Alive";
     private String host = "localhost";
-    private String getMethod = "GET";
     private String path = "/status";
 
     private int okStatusCode = 200;
@@ -29,7 +28,7 @@ public class GenericMockServerExample {
 
     @Test
     public void mockedRequestHasStatusOK() {
-        when().get(String.format(url, host, port, path)).
+        when().get(String.format(BASE_URI, host, port, path)).
                 then().statusCode(okStatusCode);
     }
 
@@ -52,7 +51,7 @@ public class GenericMockServerExample {
 
 
     private void assertMockHasBody(String body) {
-        when().get(String.format(url, host, port, path)).
+        when().get(String.format(BASE_URI, host, port, path)).
                 then().body(is(body));
     }
 
@@ -62,13 +61,15 @@ public class GenericMockServerExample {
     }
 
     private MockParameters createParametersWithBody(String body) {
+        String getMethod = "GET";
+        
         return MockParameters.MockParametersBuilder.aMockParameters().
                 withHost(host).
                 withPort(port).
                 withMethod(getMethod).
                 withPath(path).
                 withStatusCode(okStatusCode).
-                withBody(body).
+                withResponseBody(body).
                 build();
     }
 }

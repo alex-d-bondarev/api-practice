@@ -1,4 +1,6 @@
-public class PostsPojo {
+package beans;
+
+public class UserPosts {
     private int id;
     private int userId;
     private String title;

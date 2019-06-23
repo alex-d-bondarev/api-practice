@@ -1,8 +1,11 @@
 package mocks;
 
+import io.restassured.http.ContentType;
+
 public class MockParameters {
 
-    private String body;
+    private String responseBody;
+    private String requestBody;
     private String host;
     private String method;
     private String path;
@@ -10,8 +13,10 @@ public class MockParameters {
     private int port;
     private int statusCode;
 
-    public String getBody() {
-        return body;
+    private ContentType contentType;
+
+    public String getResponseBody() {
+        return responseBody;
     }
 
     public String getHost() {
@@ -34,13 +39,25 @@ public class MockParameters {
         return statusCode;
     }
 
+    public ContentType getContentType() {
+        return contentType;
+    }
+
+    public String getRequestBody() {
+        return requestBody;
+    }
+
     public static final class MockParametersBuilder {
-        private String body;
+        private String responseBody;
+        private String requestBody;
         private String host;
         private String method;
         private String path;
+
         private int port;
         private int statusCode;
+
+        private ContentType contentType;
 
         private MockParametersBuilder() {
         }
@@ -49,8 +66,18 @@ public class MockParameters {
             return new MockParametersBuilder();
         }
 
-        public MockParametersBuilder withBody(String body) {
-            this.body = body;
+        public MockParametersBuilder withResponseBody(String body) {
+            this.responseBody = body;
+            return this;
+        }
+
+        public MockParametersBuilder withRequestBody(String body) {
+            this.responseBody = body;
+            return this;
+        }
+
+        public MockParametersBuilder withContentType(ContentType contentType) {
+            this.contentType = contentType;
             return this;
         }
 
@@ -81,12 +108,14 @@ public class MockParameters {
 
         public MockParameters build() {
             MockParameters mockParameters = new MockParameters();
-            mockParameters.body = this.body;
+            mockParameters.responseBody = this.responseBody;
+            mockParameters.requestBody = this.requestBody;
             mockParameters.statusCode = this.statusCode;
             mockParameters.method = this.method;
             mockParameters.path = this.path;
             mockParameters.host = this.host;
             mockParameters.port = this.port;
+            mockParameters.contentType = this.contentType;
             return mockParameters;
         }
     }

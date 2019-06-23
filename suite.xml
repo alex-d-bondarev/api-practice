@@ -4,6 +4,7 @@
     <test name="Practice test">
         <classes>
             <class name="JsonAPITest"/>
+            <class name="MockServerExampleTest"/>
         </classes>
     </test>
 </suite>
