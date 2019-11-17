@@ -10,20 +10,29 @@ import org.mockserver.model.HttpResponse;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
-public class MockServerUtils {
+public class MockServerWrapper {
 
-    public static void createMockWith(MockParameters parameters){
+    private static MockServerClient mockClient;
+
+    public void createMockWith(MockParameters parameters){
         HttpRequest request = getRequest(parameters);
         HttpResponse response = getResponse(parameters);
 
-        new MockServerClient(parameters.getHost(), parameters.getPort())
+        getMockClient(parameters.getHost(), parameters.getPort())
                 .when(request)
                 .respond(response);
     }
 
-    public static void resetAll(MockParameters parameters){
-        new MockServerClient(parameters.getHost(), parameters.getPort()).
+    public void resetAll(MockParameters parameters){
+        getMockClient(parameters.getHost(), parameters.getPort()).
                 reset();
+    }
+
+    private MockServerClient getMockClient(String host, int port){
+        if(mockClient == null)
+            mockClient = new MockServerClient(host, port);
+
+        return mockClient;
     }
 
 

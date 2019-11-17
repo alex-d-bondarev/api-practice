@@ -3,17 +3,14 @@ package mocks;
 import io.restassured.http.ContentType;
 
 public class MockParameters {
-
+    private ContentType contentType;
+    private int port;
+    private int statusCode;
     private String responseBody;
     private String requestBody;
     private String host;
     private String method;
     private String path;
-
-    private int port;
-    private int statusCode;
-
-    private ContentType contentType;
 
     public String getResponseBody() {
         return responseBody;
@@ -47,6 +44,10 @@ public class MockParameters {
         return requestBody;
     }
 
+    public static MockParametersBuilder getBuilder(){
+        return new MockParametersBuilder();
+    }
+
     public static final class MockParametersBuilder {
         private String responseBody;
         private String requestBody;
@@ -60,10 +61,6 @@ public class MockParameters {
         private ContentType contentType;
 
         private MockParametersBuilder() {
-        }
-
-        public static MockParametersBuilder aMockParameters() {
-            return new MockParametersBuilder();
         }
 
         public MockParametersBuilder withResponseBody(String body) {
