@@ -14,7 +14,7 @@
         <config.file>test.properties</config.file>
         <test-suite>suite.xml</test-suite>
 
-        <version.gson>2.8.1</version.gson>
+        <version.gson>2.8.9</version.gson>
         <version.maven.surefire>2.12.4</version.maven.surefire>
         <version.mock-server>5.6.0</version.mock-server>
         <version.rest-assured>3.0.3</version.rest-assured>
